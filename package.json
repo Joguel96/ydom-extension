@@ -15,6 +15,9 @@
 		"type": "git",
 		"url": "https://github.com/joguel96/ydom"
 	},
+	"scripts": {
+		"build": "vsce package"
+	},
 	"contributes": {
 		"languages": [
 			{
