@@ -2,7 +2,7 @@
 	"name": "ydom-vscode",
 	"displayName": "YDOM for VS Code",
 	"description": "Soporte oficial para lenguaje YDOM (YAML DOM).",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"publisher": "joguel96",
 	"license": "MIT",
 	"icon": "icon.png",

@@ -3,25 +3,45 @@
   "name": "YDOM",
   "scopeName": "source.ydom",
   "patterns": [
-    {
-      "include": "#tags"
-    },
-    {
-      "include": "#attributesBlock"
-    },
-    {
-      "include": "#comments"
-    },
-    {
-      "include": "#strings"
-    }
+    { "include": "#controlFlow" },
+    { "include": "#attributesBlock" },
+    { "include": "#interpolation" },
+    { "include": "#tags" },
+    { "include": "#comments" },
+    { "include": "#strings" }
   ],
   "repository": {
+    "controlFlow": {
+      "begin": "^\\s*(@(?:if|else-if|else|for))",
+      "end": "$",
+      "beginCaptures": {
+        "1": { "name": "keyword.control.ydom" }
+      },
+      "patterns": [
+        {
+          "match": "\\b(in)\\b",
+          "captures": { "1": { "name": "keyword.control.ydom" } }
+        },
+        {
+          "match": "(:key)",
+          "name": "entity.other.attribute-name.binding.ydom"
+        },
+        { "include": "#strings" },
+        { "include": "#interpolation" },
+        {
+          "match": "([a-zA-Z0-9_$]+)",
+          "name": "variable.other.ydom"
+        }
+      ]
+    },
     "tags": {
-      "match": "^\\s*([a-zA-Z0-9_-]+):",
+      "match": "^\\s*([a-zA-Z0-9_-]+)(:)?",
       "captures": {
         "1": {
           "name": "entity.name.tag.ydom"
+        },
+        "2": {
+          "name": "punctuation.separator.key-value.ydom"
         }
       }
     },
@@ -40,12 +60,44 @@
           "name": "keyword.control.ydom"
         },
         {
-          "match": "(:[a-zA-Z0-9_-]+)",
-          "name": "entity.other.attribute-name.id.ydom"
+          "match": "(:[a-zA-Z0-9_.-]+)",
+          "name": "entity.other.attribute-name.binding.ydom"
         },
         {
-          "match": "([a-zA-Z0-9_-]+)(?=\\s*=)",
+          "match": "([a-zA-Z0-9_.-]+)(?=\\s*=)",
           "name": "entity.other.attribute-name.ydom"
+        },
+        {
+          "include": "#strings"
+        }
+      ]
+    },
+    "interpolation": {
+      "begin": "\\{\\{",
+      "end": "\\}\\}",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.template-expression.begin.ydom" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.template-expression.end.ydom" }
+      },
+      "name": "meta.embedded.line.ydom",
+      "patterns": [
+        {
+          "match": "\\b(true|false|null|undefined)\\b",
+          "name": "constant.language.ydom"
+        },
+        {
+          "match": "\\b([a-zA-Z0-9_$]+)\\b",
+          "name": "variable.other.ydom"
+        },
+        {
+          "match": "\\.",
+          "name": "punctuation.accessor.ydom"
+        },
+        {
+          "match": "[0-9]+",
+          "name": "constant.numeric.ydom"
         },
         {
           "include": "#strings"
@@ -62,6 +114,11 @@
           "begin": "\"",
           "end": "\"",
           "name": "string.quoted.double.ydom"
+        },
+        {
+          "begin": "'",
+          "end": "'",
+          "name": "string.quoted.single.ydom"
         },
         {
           "begin": "`",
